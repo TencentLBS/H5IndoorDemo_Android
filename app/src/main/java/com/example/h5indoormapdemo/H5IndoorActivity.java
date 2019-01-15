@@ -91,6 +91,8 @@ public class H5IndoorActivity extends AppCompatActivity implements TencentLocati
             }
             TencentLocationRequest request = TencentLocationRequest.create();
             request.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_NAME); //设置定位的请求级别，决定定位结果包含的信息
+            request.setAllowCache(true);
+            request.setAllowDirection(true);
             request.setInterval(1000); //设置定位周期(位置监听器回调周期), 单位为 ms (毫秒)
             int err = mLocationManager.requestLocationUpdates(request,this);
             switch (err) {
