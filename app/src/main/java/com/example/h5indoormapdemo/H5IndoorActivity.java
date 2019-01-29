@@ -85,10 +85,6 @@ public class H5IndoorActivity extends AppCompatActivity implements TencentLocati
     private void startLocation(){
         if (mLocationManager == null){
             mLocationManager = TencentLocationManager.getInstance(this);
-            if(!mLocationManager.startIndoorLocation()){
-                errMsg = ERROR_NO_INDOOR_LOCATE; // 定位失败,当前建筑不支持腾讯的高精度室内定位
-                return;
-            }
             TencentLocationRequest request = TencentLocationRequest.create();
             request.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_NAME); //设置定位的请求级别，决定定位结果包含的信息
             request.setAllowCache(true);
@@ -97,6 +93,7 @@ public class H5IndoorActivity extends AppCompatActivity implements TencentLocati
             int err = mLocationManager.requestLocationUpdates(request,this);
             switch (err) {
                 case 0:
+                    mLocationManager.startIndoorLocation();
                     break;
                 default:
                     errMsg = ERROR_NO_LOCATION_INFO;
@@ -109,6 +106,7 @@ public class H5IndoorActivity extends AppCompatActivity implements TencentLocati
      * 移除位置监听
      */
     private void stopLocation() {
+        mLocationManager.stopIndoorLocation();
         mLocationManager.removeUpdates(this);
         mLocationManager = null;
     }
